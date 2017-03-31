@@ -45,14 +45,14 @@ function runTwitter() {
 	access_token_secret: twitterKeys.twitterKeys.access_token_secret
 	});
 
-	client.get('statuses/user_timeline', function(error, tweets, response) {
+	client.get('statuses/user_timeline.json', function(error, tweets, response) {
 		if(error) throw error;
 
 		if(tweets) {
 			for (var i = 0; i < 10; i++) {
-			
-			console.log(i+1 + ": " + JSON.stringify(tweets[i].text));	
-			console.log(JSON.stringify(tweets[i].created_at));
+
+			console.log(tweets[i].text);
+			console.log(tweets[i].created_at);
 			console.log(line);
 
 			};
@@ -64,6 +64,22 @@ function runTwitter() {
 // `spotify-this-song`
 function runSpotify() {
 	console.log("song!");
+	console.log(line);
+
+	spotify.search({ type: 'track', query: media }, function(err, data) {
+		if ( err ) {
+		    console.log('Error occurred: ' + err);
+		    return;
+		}
+
+		if (data) {
+			console.log("Song: " + JSON.stringify(data.tracks.items[0].name));
+			console.log("Artist: " + JSON.stringify(data.tracks.items[0].artists[0].name));
+			console.log("Album: " + JSON.stringify(data.tracks.items[0].album.name));
+			console.log("Preview: " + JSON.stringify(data.tracks.items[0].preview_url));
+			console.log(line);
+		}
+	});
 }
 
 
@@ -86,7 +102,7 @@ function runRequest() {
 		console.log("Language(s): " + JSON.parse(body).Language);    
 		console.log("Plot: " + JSON.parse(body).Plot);    
 		console.log("Actors: " + JSON.parse(body).Actors);  
-		console.log("Rotton Tomatoes rating: " + JSON.parse(body).Ratings[1].Value);    
+		console.log("Rotten Tomatoes rating: " + JSON.parse(body).Ratings[1].Value);    
 
 		// console.log("Rotten Tomatoes URL: " + JSON.parse(body).Actors);    
 
