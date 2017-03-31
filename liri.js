@@ -62,6 +62,7 @@ function runTwitter() {
 
 // `spotify-this-song`
 function runSpotify() {
+	// the sign url: "https://open.spotify.com/track/0hrBpAOgrt8RXigk83LLNE"
 
 	if (media === undefined) {
 		spotify.search({ type: 'track', query: "the sign" }, function(err, data) {
@@ -76,6 +77,7 @@ function runSpotify() {
 			}
 
 		});
+
 	} else {
 		spotify.search({ type: 'track', query: media }, function(err, data) {
 			
@@ -111,8 +113,10 @@ function runRequest() {
 			console.log("Language(s): " + JSON.parse(body).Language);    
 			console.log("Plot: " + JSON.parse(body).Plot);    
 			console.log("Actors: " + JSON.parse(body).Actors);  
-			console.log("Rotten Tomatoes rating: " + JSON.parse(body).Ratings[1].Value);    
 
+			if (JSON.parse(body).Ratings[1].Value) {
+			console.log("Rotten Tomatoes rating: " + JSON.parse(body).Ratings[1].Value);    
+			}
 			// console.log("Rotten Tomatoes URL: " + JSON.parse(body).Actors);    
 
 			console.log(line);
