@@ -7,10 +7,10 @@ var request = require("request");
 var twitterKeys = require("./keys.js");
 
 // Takes command line input after the 2nd index and stores it in a var
-var command = process.argv.slice(2);
+var command = process.argv[2];
 
-// To make my life a bit easier
-var line = ("-----------------------")
+// To use as needed
+var line = ("-----------------------");
 
 
 // `my-tweets`
@@ -24,16 +24,15 @@ if (command == "my-tweets") {
 	access_token_secret: twitterKeys.twitterKeys.access_token_secret
 	});
 
-	client.get('favorites/list', function(error, tweets, response) {
-	if(error) throw error;
+	client.get('statuses/user_timeline', function(error, tweets, response) {
+		if(error) throw error;
 
-	if(tweets) {
-		console.log(line);
-		console.log(tweets.created_at);
-		console.log(line);
-	}
-	// console.log(tweets);  // The favorites. 
-	// console.log(response);  // Raw response object. 
+		if(tweets) {
+			console.log(line);
+			console.log(JSON.stringify(tweets[0].text));	
+			console.log(JSON.stringify(tweets[0].created_at));
+			console.log(line);
+		}
 	});
 }
 
