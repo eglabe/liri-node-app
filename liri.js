@@ -51,7 +51,7 @@ function runTwitter() {
 			for (var i = 0; i < 10; i++) {
 			
 			console.log(line);
-			console.log(JSON.stringify(tweets[i].text));	
+			console.log(i+1 + ": " + JSON.stringify(tweets[i].text));	
 			console.log(JSON.stringify(tweets[i].created_at));
 			console.log(line);
 
