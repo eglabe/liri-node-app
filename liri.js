@@ -8,13 +8,33 @@ var twitterKeys = require("./keys.js");
 
 // Takes command line input after the 2nd index and stores it in a var
 var command = process.argv[2];
+// As above... but with the movie/song the user requests
+var request = process.argv.slice(3);
 
 // To use as needed
 var line = ("-----------------------");
 
+switch (command) {
+  case "my-tweets":
+    runTwitter();
+    break;
+
+  case "spotify-this-song":
+    runSpotify();
+    break;
+
+  case "movie-this":
+    runRequest();
+    break;
+
+  case "do-what-it-says":
+    runFS();
+    break;
+}
+
 
 // `my-tweets`
-if (command == "my-tweets") {
+function runTwitter() {
 	console.log("tweet!");
 
 	var client = new twitter({
@@ -28,28 +48,32 @@ if (command == "my-tweets") {
 		if(error) throw error;
 
 		if(tweets) {
+			for (var i = 0; i < 10; i++) {
+			
 			console.log(line);
-			console.log(JSON.stringify(tweets[0].text));	
-			console.log(JSON.stringify(tweets[0].created_at));
+			console.log(JSON.stringify(tweets[i].text));	
+			console.log(JSON.stringify(tweets[i].created_at));
 			console.log(line);
-		}
+
+			};
+		};
 	});
 }
 
 
 // `spotify-this-song`
-if (command == "spotify-this-song") {
+function runSpotify() {
 	console.log("song!");
 }
 
 
 // `movie-this`
-if (command == "movie-this") {
+function runRequest() {
 	console.log("movie!");
 }
 
 
 // `do-what-it-says`
-if (command == "do-what-it-says") {
+function runFS() {
 	console.log("as you wish!");
 }
