@@ -12,7 +12,7 @@ var command = process.argv[2];
 var media = process.argv.slice(3);
 
 // To use as needed
-var line = ("-----------------------");
+var line = ("----------------------------");
 
 switch (command) {
   case "my-tweets":
@@ -35,7 +35,6 @@ switch (command) {
 
 // `my-tweets`
 function runTwitter() {
-	console.log("tweet!");
 	console.log(line);
 
 	var client = new twitter({
@@ -63,29 +62,39 @@ function runTwitter() {
 
 // `spotify-this-song`
 function runSpotify() {
-	console.log("song!");
-	console.log(line);
 
-	spotify.search({ type: 'track', query: media }, function(err, data) {
-		if ( err ) {
-		    console.log('Error occurred: ' + err);
-		    return;
-		}
+	if (media === undefined) {
+		spotify.search({ type: 'track', query: "the sign" }, function(err, data) {
+			
+			if (data) {
+				console.log(line);
+				console.log("Song: " + JSON.stringify(data.tracks.items[0].name));
+				console.log("Artist: " + JSON.stringify(data.tracks.items[0].artists[0].name));
+				console.log("Album: " + JSON.stringify(data.tracks.items[0].album.name));
+				console.log("Preview: " + JSON.stringify(data.tracks.items[0].preview_url));
+				console.log(line);
+			}
 
-		if (data) {
-			console.log("Song: " + JSON.stringify(data.tracks.items[0].name));
-			console.log("Artist: " + JSON.stringify(data.tracks.items[0].artists[0].name));
-			console.log("Album: " + JSON.stringify(data.tracks.items[0].album.name));
-			console.log("Preview: " + JSON.stringify(data.tracks.items[0].preview_url));
-			console.log(line);
-		}
-	});
+		});
+	} else {
+		spotify.search({ type: 'track', query: media }, function(err, data) {
+			
+			if (data) {
+				console.log(line);
+				console.log("Song: " + JSON.stringify(data.tracks.items[0].name));
+				console.log("Artist: " + JSON.stringify(data.tracks.items[0].artists[0].name));
+				console.log("Album: " + JSON.stringify(data.tracks.items[0].album.name));
+				console.log("Preview: " + JSON.stringify(data.tracks.items[0].preview_url));
+				console.log(line);
+			}
+			
+		});
+	} 
 }
 
 
 // `movie-this`
 function runRequest() {
-	console.log("movie!");
 
 	request("http://www.omdbapi.com/?t=" + media + "&y=&plot=short&r=json", function(error, response, body) {
 
