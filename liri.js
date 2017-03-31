@@ -36,6 +36,7 @@ switch (command) {
 // `my-tweets`
 function runTwitter() {
 	console.log("tweet!");
+	console.log(line);
 
 	var client = new twitter({
 	consumer_key: twitterKeys.twitterKeys.consumer_key,
@@ -50,7 +51,6 @@ function runTwitter() {
 		if(tweets) {
 			for (var i = 0; i < 10; i++) {
 			
-			console.log(line);
 			console.log(i+1 + ": " + JSON.stringify(tweets[i].text));	
 			console.log(JSON.stringify(tweets[i].created_at));
 			console.log(line);
@@ -86,8 +86,8 @@ function runRequest() {
 		console.log("Language(s): " + JSON.parse(body).Language);    
 		console.log("Plot: " + JSON.parse(body).Plot);    
 		console.log("Actors: " + JSON.parse(body).Actors);  
+		console.log("Rotton Tomatoes rating: " + JSON.parse(body).Ratings[1].Value);    
 
-		// console.log("Rotton Tomatoes rating: " + JSON.parse(body).Actors);    
 		// console.log("Rotten Tomatoes URL: " + JSON.parse(body).Actors);    
 
 		console.log(line);
