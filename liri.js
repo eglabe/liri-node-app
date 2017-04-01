@@ -15,6 +15,7 @@ var media = process.argv.slice(3);
 // To use as needed
 var line = ("----------------------------");
 
+// Switch case for the 4 fuctions
 switch (command) {
   case "my-tweets":
     runTwitter();
@@ -38,6 +39,8 @@ switch (command) {
 function runTwitter() {
 	console.log(line);
 
+	// From Twitter API; necessary for call
+	// Keys stored in keys.js
 	var client = new twitter({
 	consumer_key: twitterKeys.twitterKeys.consumer_key,
 	consumer_secret: twitterKeys.twitterKeys.consumer_secret,
@@ -45,9 +48,13 @@ function runTwitter() {
 	access_token_secret: twitterKeys.twitterKeys.access_token_secret
 	});
 
+	// Get call to Twitter
 	client.get('statuses/user_timeline', function(error, tweets, response) {
 
+		// If the call was successful... 
 		if(!error && tweets) {
+
+			// Displays text and time of ten tweets
 			for (var i = 0; i < 10; i++) {
 
 				console.log(i+1 + ": " + tweets[i].text);
@@ -64,7 +71,6 @@ function runTwitter() {
 // `spotify-this-song`
 function runSpotify() {
 	// the sign url: "https://open.spotify.com/track/0hrBpAOgrt8RXigk83LLNE"
-
 	if (media === undefined) {
 		spotify.search({ type: 'track', query: "the sign" }, function(err, data) {
 			
@@ -99,13 +105,13 @@ function runSpotify() {
 // `movie-this`
 function runRequest() {
 
+	// Request call to OMDB API
 	request("http://www.omdbapi.com/?t=" + media + "&y=&plot=short&r=json", function(error, response, body) {
 
-	// If the request is successful (i.e. if the response status code is 200)
+		// If the request is successful...
 		if (!error && response.statusCode === 200) {
 
-			// Parse the body of the site and recover just the imdbRating
-			// (Note: The syntax below for parsing isn't obvious. Just spend a few moments dissecting it).
+			// Parses all of the desired information
 			console.log(line);
 			console.log("Movie title: " + JSON.parse(body).Title);    
 			console.log("Release year: " + JSON.parse(body).Year);    
@@ -129,14 +135,18 @@ function runRequest() {
 // `do-what-it-says`
 function runFS() {
 
-		fs.readFile("random.txt", "utf8", function(err, data) {
+	// Read the random.txt file
+	fs.readFile("random.txt", "utf8", function(err, data) {
 
-			var index = data.indexOf(",");
-			var doThis = data.substr(0, index);
-			var song = data.substr(index + 1);
+		// Splits string at the index of the ","
+		// Stores each half in two variables
+		var index = data.indexOf(",");
+		var doThis = data.substr(0, index);
+		var song = data.substr(index + 1);
 
-			media = song;
-			runSpotify();
+		// Reassign "media" variable and run spotify command function
+		media = song;
+		runSpotify();
 
-		});
+	});
 }
