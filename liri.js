@@ -10,7 +10,7 @@ var twitterKeys = require("./keys.js");
 // Takes command line input after the 2nd index and stores it in a var
 var command = process.argv[2];
 // As above... but with the movie/song the user requests
-var media = process.argv.slice(3);
+var media = process.argv[3];
 
 // To use as needed
 var line = ("----------------------------");
@@ -70,21 +70,11 @@ function runTwitter() {
 
 // `spotify-this-song`
 function runSpotify() {
-	// if (media === undefined) {
-	// 	spotify.search({ type: 'track', query: "the sign" }, function(err, data) {
-			
-	// 		if (data) {
-	// 			console.log(line);
-	// 			console.log("Song: " + JSON.stringify(data.tracks.items[0].name));
-	// 			console.log("Artist: " + JSON.stringify(data.tracks.items[0].artists[0].name));
-	// 			console.log("Album: " + JSON.stringify(data.tracks.items[0].album.name));
-	// 			console.log("Preview: " + JSON.stringify(data.tracks.items[0].preview_url));
-	// 			console.log(line);
-	// 		}
 
-	// 	});
+		if(!media) {
+			media = "ace of base the sign"; 
+		}
 
-	// } else {
 		spotify.search({ type: 'track', query: media }, function(err, data) {
 			
 			if (data) {
@@ -97,12 +87,17 @@ function runSpotify() {
 			}
 
 		});
-	// } 
 }
 
 
 // `movie-this`
 function runRequest() {
+
+
+
+	if(!media) {
+		media = "mr nobody"; 
+	} 
 
 	// Request call to OMDB API
 	request("http://www.omdbapi.com/?t=" + media + "&y=&plot=short&r=json", function(error, response, body) {
@@ -110,18 +105,21 @@ function runRequest() {
 		// If the request is successful...
 		if (!error && response.statusCode === 200) {
 			// Parses all of the desired information
+
+			var jp = JSON.parse(body);
+
 			console.log(line);
-			console.log("Movie title: " + JSON.parse(body).Title);    
-			console.log("Release year: " + JSON.parse(body).Year);    
-			console.log("IMDB rating: " + JSON.parse(body).imdbRating);
-			console.log("Country: " + JSON.parse(body).Country);    
-			console.log("Language(s): " + JSON.parse(body).Language);    
-			console.log("Plot: " + JSON.parse(body).Plot);    
-			console.log("Actors: " + JSON.parse(body).Actors);  
-			if (JSON.parse(body).Ratings[1]) {
-			console.log("Rotten Tomatoes rating: " + JSON.parse(body).Ratings[1].Value);  
+			console.log("Movie title: " + jp.Title);    
+			console.log("Release year: " + jp.Year);    
+			console.log("IMDB rating: " + jp.imdbRating);
+			console.log("Country: " + jp.Country);    
+			console.log("Language(s): " + jp.Language);    
+			console.log("Plot: " + jp.Plot);    
+			console.log("Actors: " + jp.Actors);  
+			if (jp.Ratings[1]) {
+			console.log("Rotten Tomatoes rating: " + jp.Ratings[1].Value);  
 			}  
-			// console.log("Rotten Tomatoes URL: " + JSON.parse(body).Actors);    
+			console.log("Rotten Tomatoes URL: " + (jp.tomatoURL || "N/A") );    
 			console.log(line);
 		}
 	});
