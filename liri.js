@@ -2,6 +2,7 @@
 var twitter = require("twitter");
 var spotify = require("spotify");
 var request = require("request");
+var fs = require("fs");
 
 // Pulls in data from keys.js file
 var twitterKeys = require("./keys.js");
@@ -127,5 +128,15 @@ function runRequest() {
 
 // `do-what-it-says`
 function runFS() {
-	console.log("as you wish!");
+
+		fs.readFile("random.txt", "utf8", function(err, data) {
+
+			var index = data.indexOf(",");
+			var doThis = data.substr(0, index);
+			var song = data.substr(index + 1);
+
+			media = song;
+			runSpotify();
+
+		});
 }
