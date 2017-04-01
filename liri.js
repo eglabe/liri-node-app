@@ -109,7 +109,6 @@ function runRequest() {
 
 		// If the request is successful...
 		if (!error && response.statusCode === 200) {
-				console.log(body);
 			// Parses all of the desired information
 			console.log(line);
 			console.log("Movie title: " + JSON.parse(body).Title);    
@@ -119,8 +118,9 @@ function runRequest() {
 			console.log("Language(s): " + JSON.parse(body).Language);    
 			console.log("Plot: " + JSON.parse(body).Plot);    
 			console.log("Actors: " + JSON.parse(body).Actors);  
-
-			console.log("Rotten Tomatoes rating: " + JSON.parse(body).Ratings[1].Value);    
+			if (JSON.parse(body).Ratings[1]) {
+			console.log("Rotten Tomatoes rating: " + JSON.parse(body).Ratings[1].Value);  
+			}  
 			// console.log("Rotten Tomatoes URL: " + JSON.parse(body).Actors);    
 			console.log(line);
 		}
