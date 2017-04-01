@@ -70,22 +70,21 @@ function runTwitter() {
 
 // `spotify-this-song`
 function runSpotify() {
-	// the sign url: "https://open.spotify.com/track/0hrBpAOgrt8RXigk83LLNE"
-	if (media === undefined) {
-		spotify.search({ type: 'track', query: "the sign" }, function(err, data) {
+	// if (media === undefined) {
+	// 	spotify.search({ type: 'track', query: "the sign" }, function(err, data) {
 			
-			if (data) {
-				console.log(line);
-				console.log("Song: " + JSON.stringify(data.tracks.items[0].name));
-				console.log("Artist: " + JSON.stringify(data.tracks.items[0].artists[0].name));
-				console.log("Album: " + JSON.stringify(data.tracks.items[0].album.name));
-				console.log("Preview: " + JSON.stringify(data.tracks.items[0].preview_url));
-				console.log(line);
-			}
+	// 		if (data) {
+	// 			console.log(line);
+	// 			console.log("Song: " + JSON.stringify(data.tracks.items[0].name));
+	// 			console.log("Artist: " + JSON.stringify(data.tracks.items[0].artists[0].name));
+	// 			console.log("Album: " + JSON.stringify(data.tracks.items[0].album.name));
+	// 			console.log("Preview: " + JSON.stringify(data.tracks.items[0].preview_url));
+	// 			console.log(line);
+	// 		}
 
-		});
+	// 	});
 
-	} else {
+	// } else {
 		spotify.search({ type: 'track', query: media }, function(err, data) {
 			
 			if (data) {
@@ -98,7 +97,7 @@ function runSpotify() {
 			}
 
 		});
-	} 
+	// } 
 }
 
 
@@ -110,7 +109,7 @@ function runRequest() {
 
 		// If the request is successful...
 		if (!error && response.statusCode === 200) {
-
+				console.log(body);
 			// Parses all of the desired information
 			console.log(line);
 			console.log("Movie title: " + JSON.parse(body).Title);    
@@ -121,11 +120,8 @@ function runRequest() {
 			console.log("Plot: " + JSON.parse(body).Plot);    
 			console.log("Actors: " + JSON.parse(body).Actors);  
 
-			if (JSON.parse(body).Ratings[1].Value) {
 			console.log("Rotten Tomatoes rating: " + JSON.parse(body).Ratings[1].Value);    
-			}
 			// console.log("Rotten Tomatoes URL: " + JSON.parse(body).Actors);    
-
 			console.log(line);
 		}
 	});
